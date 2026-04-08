@@ -58,7 +58,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 .orElseThrow(() -> new RuntimeException("User not found: " + userId));
 
         // 3 — Generate JWT
-        String token = tokenProvider.generateToken(email);
+        String token = tokenProvider.generateToken(email, user.getId(), user.getFullName());
 
         // 4 — Persist the session (same pattern as email/OTP verifyOtp)
         authSessionRepository.save(

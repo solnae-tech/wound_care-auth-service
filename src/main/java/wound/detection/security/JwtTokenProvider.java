@@ -29,10 +29,12 @@ public class JwtTokenProvider {
 
     // ─── Generation ───────────────────────────────────────────────────────────
 
-    /** Generate a token with the user's email as the subject. */
-    public String generateToken(String email) {
+    /** Generate a token with the user's email as the subject, id, and full_name as claims. */
+    public String generateToken(String email, Long id, String fullName) {
         return Jwts.builder()
                 .subject(email)
+                .claim("id", id)
+                .claim("full_name", fullName)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(getSigningKey())

@@ -142,7 +142,7 @@ public class AuthService {
         }
 
         // Generate JWT
-        String token = tokenProvider.generateToken(user.getEmail());
+        String token = tokenProvider.generateToken(user.getEmail(), user.getId(), user.getFullName());
 
         // Persist session record
         authSessionRepository.save(
