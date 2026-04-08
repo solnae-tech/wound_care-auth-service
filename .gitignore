@@ -1,0 +1,54 @@
+# ─── Compiled output ──────────────────────────────────────────────────────────
+target/
+*.class
+*.jar
+*.war
+
+# ─── Maven wrapper ──────────────────────────────────────────────────────────
+!.mvn/wrapper/maven-wrapper.jar
+
+# ─── IntelliJ IDEA ───────────────────────────────────────────────────────────
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# ─── VS Code ─────────────────────────────────────────────────────────────────
+.vscode/
+
+# ─── Eclipse ─────────────────────────────────────────────────────────────────
+.classpath
+.project
+.settings/
+
+# ─── NetBeans ─────────────────────────────────────────────────────────────────
+nbproject/
+
+# ─── OS generated files ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Environment / Secrets ───────────────────────────────────────────────────
+# Never commit actual secrets. Use environment variables in production.
+.env
+.env.*
+!.env.example
+*.secret
+secrets/
+
+# Local override for application.properties (create this locally, never commit)
+application-local.properties
+src/main/resources/application-local.properties
+
+# ─── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
+spring.log
+
+# ─── Temporary / Misc ─────────────────────────────────────────────────────────
+*.tmp
+*.bak
+*.swp
+*.orig
