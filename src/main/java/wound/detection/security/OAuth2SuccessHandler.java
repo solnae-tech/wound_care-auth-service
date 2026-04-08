@@ -79,6 +79,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         String json = "{"
                 + "\"token\":\""     + token    + "\","
+                + "\"id\":"          + user.getId() + ","
                 + "\"email\":\""     + email    + "\","
                 + "\"fullName\":\""  + safeName + "\","
                 + "\"requiresOtp\":" + false    + ","

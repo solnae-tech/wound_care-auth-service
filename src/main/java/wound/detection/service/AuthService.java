@@ -75,7 +75,9 @@ public class AuthService {
         sendOtp(user);
 
         return AuthResponse.builder()
+                .id(user.getId())
                 .email(user.getEmail())
+                .fullName(user.getFullName())
                 .requiresOtp(true)
                 .message("Registration successful. Check your email for the OTP to verify your account.")
                 .build();
@@ -102,7 +104,9 @@ public class AuthService {
         sendOtp(user);
 
         return AuthResponse.builder()
+                .id(user.getId())
                 .email(user.getEmail())
+                .fullName(user.getFullName())
                 .requiresOtp(true)
                 .message("OTP sent to your registered email. Please verify to continue.")
                 .build();
@@ -157,6 +161,7 @@ public class AuthService {
 
         return AuthResponse.builder()
                 .token(token)
+                .id(user.getId())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .requiresOtp(false)
