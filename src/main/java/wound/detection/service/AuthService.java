@@ -23,6 +23,7 @@ import wound.detection.security.JwtTokenProvider;
 
 import java.time.LocalDateTime;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -191,7 +192,12 @@ public class AuthService {
                 .isUsed(false)
                 .build()
         );
-
-        emailService.sendOtpEmail(user.getEmail(), otpCode);
+        CompletableFuture.runAsync(() -> {
+            try {
+                emailService.sendOtpEmail(user.getEmail(), otpCode);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
