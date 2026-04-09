@@ -53,15 +53,6 @@ public class SwaggerConfig {
                         .license(new License()
                                 .name("Private")))
 
-                // ── Server list ───────────────────────────────────────────────
-                .servers(List.of(
-                        new Server()
-                                .url("https://wound-care-auth-service.onrender.com")
-                                .description("Production server"),
-                        new Server()
-                                .url("http://localhost:8080")
-                                .description("Local development server")))
-
                 // ── JWT bearer scheme (shown in "Authorize" button) ───────────
                 .addSecurityItem(new SecurityRequirement().addList(BEARER_SCHEME))
                 .components(new Components()

@@ -23,7 +23,6 @@ import wound.detection.security.JwtTokenProvider;
 
 import java.time.LocalDateTime;
 import java.util.Random;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -53,31 +52,29 @@ public class AuthService {
         }
 
         User user = userRepository.save(
-            User.builder()
-                .fullName(req.getFullName())
-                .email(req.getEmail())
-                .phoneNumber(req.getPhoneNumber())
-                .passwordHash(passwordEncoder.encode(req.getPassword()))
-                .isVerified(false)
-                .isActive(true)
-                .build()
+                User.builder()
+                        .fullName(req.getFullName())
+                        .email(req.getEmail())
+                        .phoneNumber(req.getPhoneNumber())
+                        .passwordHash(passwordEncoder.encode(req.getPassword()))
+                        .isVerified(false)
+                        .isActive(true)
+                        .build()
         );
 
         // Create empty profile so the profile endpoint always succeeds after registration
         userProfileRepository.save(
-            UserProfile.builder()
-                .user(user)
-                .fullName(user.getFullName())
-                .phoneNumber(user.getPhoneNumber())
-                .build()
+                UserProfile.builder()
+                        .user(user)
+                        .fullName(user.getFullName())
+                        .phoneNumber(user.getPhoneNumber())
+                        .build()
         );
 
         sendOtp(user);
 
         return AuthResponse.builder()
-                .id(user.getId())
                 .email(user.getEmail())
-                .fullName(user.getFullName())
                 .requiresOtp(true)
                 .message("Registration successful. Check your email for the OTP to verify your account.")
                 .build();
@@ -91,7 +88,7 @@ public class AuthService {
     public AuthResponse login(LoginRequest req) {
         // Validate credentials — throws BadCredentialsException if wrong
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
+                new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
         );
 
         User user = userRepository.findByEmail(req.getEmail())
@@ -104,9 +101,7 @@ public class AuthService {
         sendOtp(user);
 
         return AuthResponse.builder()
-                .id(user.getId())
                 .email(user.getEmail())
-                .fullName(user.getFullName())
                 .requiresOtp(true)
                 .message("OTP sent to your registered email. Please verify to continue.")
                 .build();
@@ -150,18 +145,17 @@ public class AuthService {
 
         // Persist session record
         authSessionRepository.save(
-            AuthSession.builder()
-                .user(user)
-                .accessToken(token)
-                .deviceInfo(httpRequest.getHeader("User-Agent"))
-                .ipAddress(httpRequest.getRemoteAddr())
-                .expiresAt(LocalDateTime.now().plusDays(1))
-                .build()
+                AuthSession.builder()
+                        .user(user)
+                        .accessToken(token)
+                        .deviceInfo(httpRequest.getHeader("User-Agent"))
+                        .ipAddress(httpRequest.getRemoteAddr())
+                        .expiresAt(LocalDateTime.now().plusDays(1))
+                        .build()
         );
 
         return AuthResponse.builder()
                 .token(token)
-                .id(user.getId())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .requiresOtp(false)
@@ -189,20 +183,15 @@ public class AuthService {
         int otpCode = 100000 + new Random().nextInt(900000);
 
         otpVerificationRepository.save(
-            OtpVerification.builder()
-                .user(user)
-                .contactValue(user.getEmail())
-                .otpCode(otpCode)
-                .expiryTime(LocalDateTime.now().plusMinutes(5))
-                .isUsed(false)
-                .build()
+                OtpVerification.builder()
+                        .user(user)
+                        .contactValue(user.getEmail())
+                        .otpCode(otpCode)
+                        .expiryTime(LocalDateTime.now().plusMinutes(5))
+                        .isUsed(false)
+                        .build()
         );
-        CompletableFuture.runAsync(() -> {
-            try {
-                emailService.sendOtpEmail(user.getEmail(), otpCode);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+
+        emailService.sendOtpEmail(user.getEmail(), otpCode);
     }
 }
