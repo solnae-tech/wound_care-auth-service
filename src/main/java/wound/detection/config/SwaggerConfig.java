@@ -53,6 +53,16 @@ public class SwaggerConfig {
                         .license(new License()
                                 .name("Private")))
 
+                // ── Server configuration ──────────────────────────────────────
+                // Explicitly set the HTTPS server for Cloud Run, and HTTP for localhost.
+                .servers(List.of(
+                        new Server()
+                                .url("https://wound-care-auth-service-663047210945.europe-west1.run.app")
+                                .description("Google Cloud Platform (Production)"),
+                        new Server()
+                                .url("http://localhost:8081")
+                                .description("Local Development Server")))
+
                 // ── JWT bearer scheme (shown in "Authorize" button) ───────────
                 .addSecurityItem(new SecurityRequirement().addList(BEARER_SCHEME))
                 .components(new Components()
